@@ -36,11 +36,11 @@ func newTodo(id int64, title, description string, createdAt, updatedAt time.Time
 	}
 
 	return &Todo{
-		id: 				 id,
-		title:       title,
-		description: description,
-		createdAt:   createdAt,
-		updatedAt:   updatedAt,
+		id,
+		title,
+		description,
+		createdAt,
+		updatedAt,
 	}, nil
 }
 
