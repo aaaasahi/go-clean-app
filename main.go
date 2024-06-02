@@ -19,7 +19,7 @@ func main() {
 		log.Fatal(err)
 	} 
 
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", c.DB.User, c.DB.Password, c.DB.Host, c.DB.Port, c.DB.Name)
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", c.DB.User, c.DB.Password, c.DB.Host, c.DB.Port, c.DB.Name)
 
 	var db *sql.DB
 	var err error
