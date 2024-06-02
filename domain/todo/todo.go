@@ -18,11 +18,11 @@ const (
 	maxDescriptionLength = 300
 )
 
-func NewTodo(id int64, title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
-	return newTodo(id, title, description, createdAt, updatedAt)
+func NewTodo(title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
+	return newTodo(title, description, createdAt, updatedAt)
 }
 
-func newTodo(id int64, title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
+func newTodo(title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
 	if title == "" {
 		return nil, errors.New("title is required")
 	}
@@ -36,11 +36,10 @@ func newTodo(id int64, title, description string, createdAt, updatedAt time.Time
 	}
 
 	return &Todo{
-		id,
-		title,
-		description,
-		createdAt,
-		updatedAt,
+		title:       title,
+		description: description,
+		createdAt:   createdAt,
+		updatedAt:   updatedAt,
 	}, nil
 }
 
