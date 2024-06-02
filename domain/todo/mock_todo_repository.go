@@ -39,21 +39,6 @@ func (m *MockTodoRepository) EXPECT() *MockTodoRepositoryMockRecorder {
 	return m.recorder
 }
 
-// FindAll mocks base method.
-func (m *MockTodoRepository) FindAll(ctx context.Context) ([]*Todo, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindAll", ctx)
-	ret0, _ := ret[0].([]*Todo)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// FindAll indicates an expected call of FindAll.
-func (mr *MockTodoRepositoryMockRecorder) FindAll(ctx any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockTodoRepository)(nil).FindAll), ctx)
-}
-
 // FindById mocks base method.
 func (m *MockTodoRepository) FindById(ctx context.Context, id int64) (*Todo, error) {
 	m.ctrl.T.Helper()
@@ -70,11 +55,12 @@ func (mr *MockTodoRepositoryMockRecorder) FindById(ctx, id any) *gomock.Call {
 }
 
 // Save mocks base method.
-func (m *MockTodoRepository) Save(ctx context.Context, todo *Todo) error {
+func (m *MockTodoRepository) Save(ctx context.Context, todo *Todo) (int64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Save", ctx, todo)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Save indicates an expected call of Save.

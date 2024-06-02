@@ -18,6 +18,10 @@ const (
 	maxDescriptionLength = 300
 )
 
+var (
+	ErrTodoNotFound = errors.New("todo not found")
+)
+
 func NewTodo(title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
 	return newTodo(0, title, description, createdAt, updatedAt)
 }
