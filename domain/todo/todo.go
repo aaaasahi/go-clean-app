@@ -18,8 +18,8 @@ const (
 	maxDescriptionLength = 300
 )
 
-func NewTodo(id int64, title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
-	return newTodo(id, title, description, createdAt, updatedAt)
+func NewTodo(title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
+	return newTodo(0, title, description, createdAt, updatedAt)
 }
 
 func newTodo(id int64, title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
@@ -42,6 +42,10 @@ func newTodo(id int64, title, description string, createdAt, updatedAt time.Time
 		createdAt,
 		updatedAt,
 	}, nil
+}
+
+func ReConstruct(id int64, title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
+	return newTodo(id, title, description, createdAt, updatedAt)
 }
 
 func (t *Todo) ID() int64 {
