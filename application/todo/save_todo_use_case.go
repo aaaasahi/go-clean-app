@@ -21,11 +21,15 @@ type SaveTodoUseCaseDto struct {
 	Description string
 }
 
-func (tc *SaveTodoUseCase) Run(ctx context.Context, input SaveTodoUseCaseDto) error {
+func (tc *SaveTodoUseCase) Run(ctx context.Context, input SaveTodoUseCaseDto) (int64, error) {
 	now := time.Now()
 	todo, err := todoDomain.NewTodo(input.Title, input.Description, now, now)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	return tc.todoRepo.Save(ctx, todo)
+	id, err := tc.todoRepo.Save(ctx, todo)
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
 }
