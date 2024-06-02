@@ -10,8 +10,8 @@ type SaveTodoUseCase struct {
 	todoRepo todoDomain.TodoRepository
 }
 
-func NewSaveTodoUseCase(todoRepo todoDomain.TodoRepository) *FindTodoUseCase {
-	return &FindTodoUseCase{
+func NewSaveTodoUseCase(todoRepo todoDomain.TodoRepository) *SaveTodoUseCase {
+	return &SaveTodoUseCase{
 		todoRepo: todoRepo,
 	}
 }
