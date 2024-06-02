@@ -19,10 +19,10 @@ const (
 )
 
 func NewTodo(title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
-	return newTodo(title, description, createdAt, updatedAt)
+	return newTodo(0, title, description, createdAt, updatedAt)
 }
 
-func newTodo(title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
+func newTodo(id int64, title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
 	if title == "" {
 		return nil, errors.New("title is required")
 	}
@@ -36,11 +36,16 @@ func newTodo(title, description string, createdAt, updatedAt time.Time) (*Todo, 
 	}
 
 	return &Todo{
+		id: 				 id,
 		title:       title,
 		description: description,
 		createdAt:   createdAt,
 		updatedAt:   updatedAt,
 	}, nil
+}
+
+func ReConstruct(id int64, title, description string, createdAt, updatedAt time.Time) (*Todo, error) {
+	return newTodo(id, title, description, createdAt, updatedAt)
 }
 
 func (t *Todo) ID() int64 {
