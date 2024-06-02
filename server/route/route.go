@@ -1,21 +1,31 @@
 package route
 
 import (
+	handler "go-clean-app/presentation/todo"
+
 	"github.com/labstack/echo/v4"
 )
 
-func InitRoute(e *echo.Echo) {
+type Router struct {
+	TodoHandler *handler.Handler
+}
+
+func NewRouter(todoHandler *handler.Handler) *Router {
+	return &Router{
+		TodoHandler: todoHandler,
+	}
+}
+
+func (r *Router) InitRoute(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(200, "Hello, World!")
 	})
-
 	v1 := e.Group("/v1")
-
-	todoRoute(v1)
+	r.todoRoute(v1)
 }
 
-func todoRoute(g *echo.Group) {
-	g.GET("/todo", func(c echo.Context) error {
-		return c.JSON(200, "TODO")
-	})
+func (r *Router) todoRoute(e *echo.Group) {
+	group := e.Group("/todos")
+	group.GET("/:id", r.TodoHandler.GetTodoByID)
+	group.POST("", r.TodoHandler.SaveTodo)
 }

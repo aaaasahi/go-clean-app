@@ -4,24 +4,35 @@ import (
 	"log"
 
 	"go-clean-app/config"
+
 	"go-clean-app/server/route"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
+type Server struct {
+	Echo        *echo.Echo
+	Router      *route.Router
+}
 
-func Run(conf *config.Conf) {
-
+func NewServer(router *route.Router) *Server {
 	e := echo.New()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	route.InitRoute(e)
+	return &Server{
+		Echo:  e,
+		Router: router,
+	}
+}
+
+func (s *Server) Run(conf *config.Conf) {
+	s.Router.InitRoute(s.Echo)
 	
 	log.Println("Server starting on port 8080")
 
-	if err := e.Start(":8080"); err != nil {
+	if err := s.Echo.Start(":8080"); err != nil {
 		log.Fatal(err)
 	}
 }
