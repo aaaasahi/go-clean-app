@@ -8,6 +8,7 @@ import (
 
 	"go-clean-app/config"
 	"go-clean-app/server"
+	"go-clean-app/di"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -38,5 +39,11 @@ func main() {
 	}
 	defer db.Close()
 
-	server.Run(&c)
+	container := di.BuildContainer(db)
+
+	if err := container.Invoke(func(s *server.Server) {
+		s.Run(&c)
+	}); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }

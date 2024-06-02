@@ -7,19 +7,19 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type handler struct {
+type Handler struct {
 	findTodoUseCase *todoApp.FindTodoUseCase
 	saveTodoUseCase *todoApp.SaveTodoUseCase
 }
 
-func NewTodoHandler(findTodoUseCase *todoApp.FindTodoUseCase, saveTodoUseCase *todoApp.SaveTodoUseCase) handler {
-	return handler{
+func NewTodoHandler(findTodoUseCase *todoApp.FindTodoUseCase, saveTodoUseCase *todoApp.SaveTodoUseCase) *Handler {
+	return &Handler{
 		findTodoUseCase: findTodoUseCase,
 		saveTodoUseCase: saveTodoUseCase,
 	}
 }
 
-func (h *handler) GetTodoByID(c echo.Context) error {
+func (h *Handler) GetTodoByID(c echo.Context) error {
 	idParam := c.Param("id")
   id, err := strconv.ParseInt(idParam, 10, 64)
 	if err != nil {
@@ -42,13 +42,9 @@ func (h *handler) GetTodoByID(c echo.Context) error {
 	return c.JSON(200, res)
 }
 
-func (h *handler) SaveTodo(c echo.Context) error {
+func (h *Handler) SaveTodo(c echo.Context) error {
 	var params saveTodoParams
 	if err := c.Bind(&params); err != nil {
-		return c.JSON(400, err.Error())
-	}
-
-	if err := c.Validate(&params); err != nil {
 		return c.JSON(400, err.Error())
 	}
 

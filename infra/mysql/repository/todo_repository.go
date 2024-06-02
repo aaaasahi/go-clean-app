@@ -9,15 +9,17 @@ import (
 	todoDomain "go-clean-app/domain/todo"
 )
 
-type todoRepository struct {
+type TodoRepository struct {
 	db *sql.DB
 }
 
-func NewTodoRepository(db *sql.DB) *todoRepository {
-	return &todoRepository{db: db}
+func NewTodoRepository(db *sql.DB) *TodoRepository {
+	return &TodoRepository{db: db}
 }
 
-func (tr *todoRepository) Save(ctx context.Context, todo *todoDomain.Todo) (int64, error) {
+var _ todoDomain.TodoRepository = new(TodoRepository)
+
+func (tr *TodoRepository) Save(ctx context.Context, todo *todoDomain.Todo) (int64, error) {
 	query := `
 		INSERT INTO todos (title, description, created_at, updated_at)
 		VALUES (?, ?, ?, ?)
@@ -36,7 +38,7 @@ func (tr *todoRepository) Save(ctx context.Context, todo *todoDomain.Todo) (int6
 	return id, nil
 }
 
-func (tr *todoRepository) FindById(ctx context.Context, id int64) (*todoDomain.Todo, error) {
+func (tr *TodoRepository) FindById(ctx context.Context, id int64) (*todoDomain.Todo, error) {
 	query := `
 		SELECT id, title, description, created_at, updated_at
 		FROM todos
